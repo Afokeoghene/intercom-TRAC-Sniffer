@@ -9,6 +9,7 @@
 
 **TRAC-Sniffer** is a specialized security tool designed for the Trac/Intercom ecosystem. It protects users by scanning TAP Protocol token deployments for "God Mode" backdoors and centralized vulnerabilities that lead to honeypots and rug pulls.
 
+<img src = "/Screenshot_20260227_100729_Chrome.png" alt="Prototype" />
 ---
 
 ## 🚀 The Problem: The "Auth" Backdoor
