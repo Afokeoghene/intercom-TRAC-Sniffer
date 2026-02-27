@@ -3,7 +3,8 @@ import { useParams, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, ShieldAlert, ShieldCheck, Server, 
-  ChevronDown, Code, CheckCircle2, AlertOctagon, Terminal
+  ChevronDown, Code, CheckCircle2, AlertOctagon, Terminal,
+  Coins, Wallet, Clock, TrendingUp, AlertTriangle
 } from "lucide-react";
 import { useScan } from "@/hooks/use-scan";
 
@@ -90,6 +91,46 @@ export default function ScanResult() {
           transition={{ type: "spring", bounce: 0.4 }}
           className="flex flex-col gap-8"
         >
+          {/* Market Stats Bar */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm flex flex-col gap-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                <TrendingUp className="w-3 h-3 text-primary" />
+                Market Cap
+              </div>
+              <div className="text-lg font-bold font-mono text-primary">
+                {data.marketCap !== "N/A" ? `$${data.marketCap}` : "N/A"}
+              </div>
+            </div>
+            <div className="p-4 rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm flex flex-col gap-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                <Coins className="w-3 h-3 text-primary" />
+                Price
+              </div>
+              <div className="text-lg font-bold font-mono text-primary">
+                {data.price !== "N/A" ? `$${data.price}` : "N/A"}
+              </div>
+            </div>
+            <div className="p-4 rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm flex flex-col gap-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                <Wallet className="w-3 h-3 text-primary" />
+                Deployer
+              </div>
+              <div className="text-sm font-bold font-mono text-primary truncate" title={data.deployer}>
+                {data.deployer ? `${data.deployer.slice(0, 6)}...${data.deployer.slice(-4)}` : "N/A"}
+              </div>
+            </div>
+            <div className="p-4 rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm flex flex-col gap-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                <Clock className="w-3 h-3 text-primary" />
+                Deployed
+              </div>
+              <div className="text-sm font-bold font-mono text-primary">
+                {data.deployedAt || "N/A"}
+              </div>
+            </div>
+          </div>
+
           {data.isSafe ? (
             /* SAFE CARD */
             <div className="p-8 md:p-10 rounded-2xl border-2 border-primary shadow-[0_0_30px_rgba(0,255,65,0.15)] bg-primary/5 backdrop-blur-sm relative overflow-hidden group">
@@ -148,7 +189,8 @@ export default function ScanResult() {
                 </div>
               </div>
             </div>
-          )}
+          )
+}
 
           {/* Raw Data Accordion */}
           <div className="border border-border/60 rounded-xl bg-card overflow-hidden">

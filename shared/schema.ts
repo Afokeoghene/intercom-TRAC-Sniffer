@@ -18,6 +18,10 @@ export const scanResponseSchema = z.object({
   ticker: z.string(),
   isSafe: z.boolean(),
   authAddress: z.string().nullable(),
+  marketCap: z.string().optional(),
+  price: z.string().optional(),
+  deployer: z.string().optional(),
+  deployedAt: z.string().optional(),
   rawData: z.any(),
 });
 

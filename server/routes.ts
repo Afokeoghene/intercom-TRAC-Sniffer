@@ -68,10 +68,21 @@ export async function registerRoutes(
       const isSafe = !deployment.auth;
       const authAddress = deployment.auth || null;
       
+      // Calculate basic stats if available
+      // Note: Trac API returns values in base units (satoshis/decimals)
+      const price = deployment.price || "N/A";
+      const marketCap = deployment.mcap || "N/A";
+      const deployer = deployment.addr || "Unknown";
+      const deployedAt = deployment.ts ? new Date(deployment.ts * 1000).toLocaleString() : "Unknown";
+      
       const result = {
         ticker: req.params.ticker.toUpperCase(),
         isSafe,
         authAddress,
+        marketCap: marketCap.toString(),
+        price: price.toString(),
+        deployer,
+        deployedAt,
         rawData: deployment
       };
       
