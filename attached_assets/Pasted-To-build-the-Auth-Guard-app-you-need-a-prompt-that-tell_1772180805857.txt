@@ -1,0 +1,41 @@
+To build the Auth-Guard app, you need a prompt that tells Replit AI how to connect to the Bitcoin-based Trac network, fetch JSON data, and specifically look for the "backdoor" fields we discussed.
+Since TAP is a "metaprotocol," the app will essentially be a specialized JSON parser that queries the Trac indexer.
+The Replit AI Prompt
+Copy and paste this exact text into the Replit AI chat:
+> "Build a Python web application using Flask and the Requests library that acts as a security scanner for TAP Protocol tokens on the Trac Network.
+> Core Functionality:
+>  * Create a simple search bar where users enter a 'Token Ticker' (e.g., $TRAC).
+>  * When submitted, the app must query the Trac Core API (use https://api.trac.network as the base URL) to find the 'Deployment Inscription' for that ticker.
+>  * The app must parse the JSON data of the deployment and look for the key "auth".
+> Security Logic:
+>  * If "auth" exists and has a wallet address value: Display a RED WARNING card. Text: 'SECURITY ALERT: This token has an active Token Authority. The owner at [address] can blacklist users or freeze transfers.'
+>  * If "auth" is null, empty, or missing: Display a GREEN SUCCESS card. Text: 'SAFE: No Token Authority found. This is a decentralized fair-launch token.'
+> Technical Details:
+>  * Reference the Trac-Systems/tap-reader logic: we are looking for the op: token-deploy operation.
+>  * Use Bootstrap for a clean, 'Cybersecurity' themed UI (dark mode with neon red/green alerts).
+>  * Add a 'Raw Data' dropdown that shows the full JSON received from the API for transparency."
+> 
+Key Technical Insights for the App
+To make sure the scanner is 100% accurate, here is what is happening under the hood:
+ * The "Honeypot" JSON Structure: A malicious deployment looks like this:
+   {
+  "p": "tap",
+  "op": "token-deploy",
+  "tick": "SCAM",
+  "max": "1000000",
+  "auth": "bc1p...scammer_address" 
+}
+
+   (That auth field is the "God Mode" switch that allows them to rug).
+ * The "Clean" JSON Structure:
+   {
+  "p": "tap",
+  "op": "token-deploy",
+  "tick": "TRAC",
+  "max": "21000000",
+  "auth": null
+}
+
+Why this is a "Winning" Competition Entry
+In the current Intercom Competition, most people are building simple "Price Trackers." By building a Security Scanner, you are solving the biggest problem in crypto: Trust.
+Would you like me to generate the specific "Attack Vectors" list you can include in the app's 'Education' section to help users understand the risks?
