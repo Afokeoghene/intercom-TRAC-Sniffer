@@ -1,18 +1,24 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+export const searches = pgTable("searches", {
+  id: serial("id").primaryKey(),
+  ticker: text("ticker").notNull(),
+  isSafe: boolean("is_safe").notNull(),
+  timestamp: timestamp("timestamp").defaultNow(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+export const insertSearchSchema = createInsertSchema(searches).omit({ id: true, timestamp: true });
+
+export type InsertSearch = z.infer<typeof insertSearchSchema>;
+export type Search = typeof searches.$inferSelect;
+
+export const scanResponseSchema = z.object({
+  ticker: z.string(),
+  isSafe: z.boolean(),
+  authAddress: z.string().nullable(),
+  rawData: z.any(),
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+export type ScanResponse = z.infer<typeof scanResponseSchema>;
